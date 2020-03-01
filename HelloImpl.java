@@ -9,8 +9,13 @@ public  class HelloImpl implements Hello {
 		message = s ;
 	}
 
-	public String sayHello(Info_itf client) throws RemoteException {
-		return client.getName() + " " +message ;
+	public String sayHello(Registry_itf reg, Accounting_itf acc) throws RemoteException {
+		reg.register(acc);
+		
+		String name = acc.getAccName();
+		int isLimit = reg.getNumCalls(name);
+		if(isLimit != 0) { return name+ " " +message ; }
+		return "limit reached";
 	}
 }
 
